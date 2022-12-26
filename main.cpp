@@ -4,11 +4,11 @@
 
 using namespace sf;
 
-// Массив содержащий все спрайты
+// РњР°СЃСЃРёРІ СЃРѕРґРµСЂР¶Р°С‰РёР№ РІСЃРµ СЃРїСЂР°Р№С‚С‹
 std::array <std::array<Sprite, 4>, 4> sprites;
-// Размер текстуры спрайта
+// Р Р°Р·РјРµСЂ С‚РµРєСЃС‚СѓСЂС‹ СЃРїСЂР°Р№С‚Р°
 const int cube_widht = 63;
-// Координаты свободной ячейки
+// РљРѕРѕСЂРґРёРЅР°С‚С‹ СЃРІРѕР±РѕРґРЅРѕР№ СЏС‡РµР№РєРё
 int free_x = 3, free_y = 3;
 void fEvent(RenderWindow& window);
 void fSwapSpriteTextureRect(Sprite& sprite_1, Sprite& sprite_2);
@@ -20,14 +20,14 @@ int main()
 
 	RenderWindow window(VideoMode(252, 252), "Fifteen", Style::Default, settings);
 
-	// Задаем максимальную частоту кадров (иначе эффект анимации может быть незаметен)
+	// Р—Р°РґР°РµРј РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ С‡Р°СЃС‚РѕС‚Сѓ РєР°РґСЂРѕРІ (РёРЅР°С‡Рµ СЌС„С„РµРєС‚ Р°РЅРёРјР°С†РёРё РјРѕР¶РµС‚ Р±С‹С‚СЊ РЅРµР·Р°РјРµС‚РµРЅ)
 	window.setFramerateLimit(60);
 
-	// Создаем переменную для текстуры и загружаем текстуру
+	// РЎРѕР·РґР°РµРј РїРµСЂРµРјРµРЅРЅСѓСЋ РґР»СЏ С‚РµРєСЃС‚СѓСЂС‹ Рё Р·Р°РіСЂСѓР¶Р°РµРј С‚РµРєСЃС‚СѓСЂСѓ
 	Texture texture_cube;
 	texture_cube.loadFromFile("Cube.png");
 
-	// Заполняем спрайты текстурой
+	// Р—Р°РїРѕР»РЅСЏРµРј СЃРїСЂР°Р№С‚С‹ С‚РµРєСЃС‚СѓСЂРѕР№
 	for (int x = 0; x < sprites.size(); x++)
 		for (int y = 0; y < sprites.at(x).size(); y++)
 		{
@@ -36,36 +36,36 @@ int main()
 			sprites.at(x).at(y).setPosition(x * cube_widht * 1.f, y * cube_widht * 1.f);
 		}
 
-	// Установим случайные начальные позиции
+	// РЈСЃС‚Р°РЅРѕРІРёРј СЃР»СѓС‡Р°Р№РЅС‹Рµ РЅР°С‡Р°Р»СЊРЅС‹Рµ РїРѕР·РёС†РёРё
 	for (int x = 0; x < sprites.size(); x++)
 		for (int y = 0; y < sprites.at(x).size(); y++)
 		{
-			// Получим рандомные значения адреса спрайта в диапазоне {0-3}
+			// РџРѕР»СѓС‡РёРј СЂР°РЅРґРѕРјРЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ Р°РґСЂРµСЃР° СЃРїСЂР°Р№С‚Р° РІ РґРёР°РїР°Р·РѕРЅРµ {0-3}
 			int x_rand = std::mt19937(std::random_device{}())() % 4;
 			int y_rand = std::mt19937(std::random_device{}())() % 4;
-			// Поменяем позиции спрайтов местами, пустую ячейку не трогаем
+			// РџРѕРјРµРЅСЏРµРј РїРѕР·РёС†РёРё СЃРїСЂР°Р№С‚РѕРІ РјРµСЃС‚Р°РјРё, РїСѓСЃС‚СѓСЋ СЏС‡РµР№РєСѓ РЅРµ С‚СЂРѕРіР°РµРј
 			if ((x != 3 || y != 3) && (x_rand != 3 || y_rand != 3))
 				fSwapSpriteTextureRect(sprites.at(x).at(y), sprites.at(x_rand).at(y_rand));
 		}
 
-	// Основной цикл
+	// РћСЃРЅРѕРІРЅРѕР№ С†РёРєР»
 	while (window.isOpen())
 	{
 		window.clear(Color::White);
-		// Обработчик событий
+		// РћР±СЂР°Р±РѕС‚С‡РёРє СЃРѕР±С‹С‚РёР№
 		fEvent(window);
 
 		for (int x = 0; x < sprites.size(); x++)
 			for (int y = 0; y < sprites.at(x).size(); y++)
 				window.draw(sprites.at(x).at(y));
 
-		// Отрисовка окна
+		// РћС‚СЂРёСЃРѕРІРєР° РѕРєРЅР°
 		window.display();
 	}
 	return 0;
 }
 
-// Обработчик событий
+// РћР±СЂР°Р±РѕС‚С‡РёРє СЃРѕР±С‹С‚РёР№
 void fEvent(RenderWindow& window)
 {
 	Event event;
@@ -80,39 +80,39 @@ void fEvent(RenderWindow& window)
 			int y = pos.y / cube_widht;
 			if (event.key.code == Mouse::Left)
 			{
-				// Проверяем можем ли мы переместить этот блок
+				// РџСЂРѕРІРµСЂСЏРµРј РјРѕР¶РµРј Р»Рё РјС‹ РїРµСЂРµРјРµСЃС‚РёС‚СЊ СЌС‚РѕС‚ Р±Р»РѕРє
 				if (x - 1 == free_x && y == free_y)
 				{
-					// Перемещение без анимации
+					// РџРµСЂРµРјРµС‰РµРЅРёРµ Р±РµР· Р°РЅРёРјР°С†РёРё
 					//fSwapSpriteTextureRect(sprites.at(x).at(y), sprites.at(free_x).at(y));
-					// Перемещение с анимацией (две строки)
+					// РџРµСЂРµРјРµС‰РµРЅРёРµ СЃ Р°РЅРёРјР°С†РёРµР№ (РґРІРµ СЃС‚СЂРѕРєРё)
 					fMoveWithAnimation(sprites.at(x).at(y), sprites.at(free_x).at(y), window, -1);
 					std::swap(sprites.at(x).at(y), sprites.at(free_x).at(y));
 					free_x = x;
 				}
 				if (x + 1 == free_x && y == free_y)
 				{
-					// Перемещение без анимации
+					// РџРµСЂРµРјРµС‰РµРЅРёРµ Р±РµР· Р°РЅРёРјР°С†РёРё
 					//fSwapSpriteTextureRect(sprites.at(x).at(y), sprites.at(free_x).at(y));
-					// Перемещение с анимацией (две строки)
+					// РџРµСЂРµРјРµС‰РµРЅРёРµ СЃ Р°РЅРёРјР°С†РёРµР№ (РґРІРµ СЃС‚СЂРѕРєРё)
 					fMoveWithAnimation(sprites.at(x).at(y), sprites.at(free_x).at(y), window, 1);
 					std::swap(sprites.at(x).at(y), sprites.at(free_x).at(y));
 					free_x = x;
 				}
 				if (y - 1 == free_y && x == free_x)
 				{
-					// Перемещение без анимации
+					// РџРµСЂРµРјРµС‰РµРЅРёРµ Р±РµР· Р°РЅРёРјР°С†РёРё
 					//fSwapSpriteTextureRect(sprites.at(x).at(y), sprites.at(x).at(free_y));
-					// Перемещение с анимацией (две строки)
+					// РџРµСЂРµРјРµС‰РµРЅРёРµ СЃ Р°РЅРёРјР°С†РёРµР№ (РґРІРµ СЃС‚СЂРѕРєРё)
 					fMoveWithAnimation(sprites.at(x).at(y), sprites.at(x).at(free_y), window, 0, -1);
 					std::swap(sprites.at(x).at(y), sprites.at(x).at(free_y));
 					free_y = y;
 				}
 				if (y + 1 == free_y && x == free_x)
 				{
-					// Перемещение без анимации
+					// РџРµСЂРµРјРµС‰РµРЅРёРµ Р±РµР· Р°РЅРёРјР°С†РёРё
 					//fSwapSpriteTextureRect(sprites.at(x).at(y), sprites.at(x).at(free_y));
-					// Перемещение с анимацией (две строки)
+					// РџРµСЂРµРјРµС‰РµРЅРёРµ СЃ Р°РЅРёРјР°С†РёРµР№ (РґРІРµ СЃС‚СЂРѕРєРё)
 					fMoveWithAnimation(sprites.at(x).at(y), sprites.at(x).at(free_y), window, 0, 1);
 					std::swap(sprites.at(x).at(y), sprites.at(x).at(free_y));
 					free_y = y;
@@ -122,27 +122,27 @@ void fEvent(RenderWindow& window)
 	}
 }
 
-// Меняет местами текстуры двух спрайтов
+// РњРµРЅСЏРµС‚ РјРµСЃС‚Р°РјРё С‚РµРєСЃС‚СѓСЂС‹ РґРІСѓС… СЃРїСЂР°Р№С‚РѕРІ
 void fSwapSpriteTextureRect(Sprite& sprite_1, Sprite& sprite_2)
 {
 	IntRect temp = sprite_1.getTextureRect();
 	sprite_1.setTextureRect(sprite_2.getTextureRect());
 	sprite_2.setTextureRect(temp);
 }
-// Двигаем спрайты с анимацией
+// Р”РІРёРіР°РµРј СЃРїСЂР°Р№С‚С‹ СЃ Р°РЅРёРјР°С†РёРµР№
 void fMoveWithAnimation(Sprite& sprite_1, Sprite& sprite_2, RenderWindow& window, float x_move, float y_move, float speed, int block_widht)
 {
 	for (float i = 0; i < block_widht; i += speed)
 	{
-		// Двигаем первый спрайт
+		// Р”РІРёРіР°РµРј РїРµСЂРІС‹Р№ СЃРїСЂР°Р№С‚
 		sprite_1.move(speed * x_move, speed * y_move);
-		// Если двигаем по оси X, то второй двигаем в другую сторону
+		// Р•СЃР»Рё РґРІРёРіР°РµРј РїРѕ РѕСЃРё X, С‚Рѕ РІС‚РѕСЂРѕР№ РґРІРёРіР°РµРј РІ РґСЂСѓРіСѓСЋ СЃС‚РѕСЂРѕРЅСѓ
 		if (x_move != 0)
 			sprite_2.move(speed * (-x_move), speed * y_move);
-		// Если двигаем по оси Y, то второй двигаем в другую сторону
+		// Р•СЃР»Рё РґРІРёРіР°РµРј РїРѕ РѕСЃРё Y, С‚Рѕ РІС‚РѕСЂРѕР№ РґРІРёРіР°РµРј РІ РґСЂСѓРіСѓСЋ СЃС‚РѕСЂРѕРЅСѓ
 		if (y_move != 0)
 			sprite_2.move(speed * x_move, speed * (-y_move));
-		// Отрисовка спрайтов и окна
+		// РћС‚СЂРёСЃРѕРІРєР° СЃРїСЂР°Р№С‚РѕРІ Рё РѕРєРЅР°
 		for (int x = 0; x < sprites.size(); x++)
 			for (int y = 0; y < sprites.at(x).size(); y++)
 				window.draw(sprites.at(x).at(y));
